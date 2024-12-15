@@ -1,0 +1,7 @@
+torchvision~=0.20.1
+pillow~=11.0.0
+tqdm~=4.66.5
+matplotlib~=3.9.2
+keras~=2.10.0
+pandas~=2.2.3
+flask~=2.2.5
