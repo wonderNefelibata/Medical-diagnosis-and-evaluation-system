@@ -34,14 +34,6 @@
         |   |-- EarlyStopping.py
         |   |-- train.py
         |   |-- visualization.py
-        |   |-- __pycache__
-        |       |-- api.cpython-310.pyc
-        |       |-- autoencoder.cpython-310.pyc
-        |       |-- cnn.cpython-310.pyc
-        |       |-- config.cpython-310.pyc
-        |       |-- data_tools.cpython-310.pyc
-        |       |-- EarlyStopping.cpython-310.pyc
-        |       |-- visualization.cpython-310.pyc
         |-- part2
         |   |-- api.py
         |   |-- config.py
@@ -52,12 +44,6 @@
         |   |-- use_torch.ipynb
         |   |-- use_torch.py
         |   |-- visualization.py
-        |   |-- __pycache__
-        |       |-- api.cpython-310.pyc
-        |       |-- config.cpython-310.pyc
-        |       |-- data_tools.cpython-310.pyc
-        |       |-- model.cpython-310.pyc
-        |       |-- visualization.cpython-310.pyc
         |-- static
         |-- temp
         |   |-- 0105.jpeg
