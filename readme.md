@@ -1,4 +1,4 @@
-## SE2206-wyk的实验
+## CSU-SE2206-wyk的科学计算与数学建模实验五
 
 欢迎star，欢迎fork，欢迎issue
 
