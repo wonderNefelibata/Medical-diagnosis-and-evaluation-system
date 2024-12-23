@@ -1,8 +1,3 @@
-## SE2206-wyk的实验
-
-欢迎star，欢迎fork，欢迎issue
-
-### 项目结构
 |-- project
     |-- app.py
     |-- readme.md
@@ -66,6 +61,3 @@
     |-- templates
         |-- index.html
         |-- result.html
-
-
-
