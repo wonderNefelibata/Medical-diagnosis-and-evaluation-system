@@ -13,8 +13,8 @@ def visualization_for_autoencode(autoencoder,test_dataloader,device):
         data = data.to(device)
         output = autoencoder(data)
         tp = transforms.ToPILImage()
-        noisy_img = tp(data[0].cpu)
-        reconstructed = tp(output[0].cpu)
+        noisy_img = tp(data[0].cpu())
+        reconstructed = tp(output[0].cpu())
         plt.imshow(noisy_img,cmap="gray")
         plt.axis("off")
         plt.show()
@@ -22,7 +22,8 @@ def visualization_for_autoencode(autoencoder,test_dataloader,device):
         plt.axis("off")
         plt.show()
 
-def visualization_for_cnn(epoch:list,train_loss_per_epoch:list,test_loss_per_epoch:list,train_acc_per_epoch:list,test_acc_per_epoch:list):
+def visualization_for_cnn(epoch:list,train_loss_per_epoch:list,test_loss_per_epoch:list,
+                          train_acc_per_epoch:list,test_acc_per_epoch:list):
     # 创建一个图形和一个轴
     fig, ax1 = plt.subplots()
 
@@ -55,20 +56,20 @@ def visualization_for_cnn(epoch:list,train_loss_per_epoch:list,test_loss_per_epo
 
 
 def main():
-    # # 加载Autoencoder模型
-    # autoencoder = AutoEncoder()
-    # autoencoder.load_state_dict(torch.load("../model/autoencoder.pth",weights_only=True))
-    # test_dataset = get_dataset(data_path["test_dataset"])
-    # test_dataloader = get_dataloader(test_dataset,hyper_parameters["TEST_BATCH_SIZE"])
-    # visualization_for_autoencode(autoencoder,test_dataloader,device="cpu")
-    epochs = list(range(1, 6))
-    train_loss_per_epoch = [0.5, 0.4, 0.3, 0.2, 0.1]  # 示例数据
-    test_loss_per_epoch = [0.6, 0.5, 0.4, 0.3, 0.2]  # 示例数据
-    train_acc_per_epoch = [40, 50, 60, 70, 80]  # 示例数据
-    test_acc_per_epoch = [30, 40, 50, 60, 70]  # 示例数据
-
-    # 调用函数
-    visualization_for_cnn(epochs, train_loss_per_epoch, test_loss_per_epoch, train_acc_per_epoch, test_acc_per_epoch)
+    # 加载Autoencoder模型
+    autoencoder = AutoEncoder()
+    autoencoder.load_state_dict(torch.load("../model/autoencoder.pth",weights_only=True))
+    test_dataset = get_dataset(data_path["test_dataset"])
+    test_dataloader = get_dataloader(test_dataset,hyper_parameters["TEST_BATCH_SIZE"])
+    visualization_for_autoencode(autoencoder,test_dataloader,device="cpu")
+    # epochs = list(range(1, 6))
+    # train_loss_per_epoch = [0.5, 0.4, 0.3, 0.2, 0.1]  # 示例数据
+    # test_loss_per_epoch = [0.6, 0.5, 0.4, 0.3, 0.2]  # 示例数据
+    # train_acc_per_epoch = [40, 50, 60, 70, 80]  # 示例数据
+    # test_acc_per_epoch = [30, 40, 50, 60, 70]  # 示例数据
+    #
+    # # 调用函数
+    # visualization_for_cnn(epochs, train_loss_per_epoch, test_loss_per_epoch, train_acc_per_epoch, test_acc_per_epoch)
 
 
 if __name__ == '__main__':

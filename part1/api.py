@@ -22,10 +22,10 @@ def transform_image(img_path):
 
 def diagnosis(img):
     device = "cuda" if torch.cuda.is_available() else "cpu"
-
     # 创建autoencoder对象
     autoencoder = AutoEncoder().to(device)
-    autoencoder.load_state_dict(torch.load("model/autoencoder.pth", map_location=device, weights_only=True))
+    autoencoder.load_state_dict(torch.load("model/autoencoder.pth", map_location=device,
+                                           weights_only=True))
     # 创建cnn对象
     cnn = CNN().to(device)
     cnn.load_state_dict(torch.load("model/cnn.pth", map_location=device,weights_only=True))

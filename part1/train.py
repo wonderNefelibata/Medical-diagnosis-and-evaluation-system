@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from tqdm import tqdm
 
+from part1.EarlyStopping import EarlyStopping
 from part1.autoencoder import AutoEncoder
 from part1.cnn import CNN
 from part1.data_tools import get_dataset, get_dataloader, add_noise
@@ -20,7 +21,7 @@ def main():
     train_dataloader = get_dataloader(train_dataset, batch_size=hyper_parameters["TRAIN_BATCH_SIZE"], shuffle=True)
     test_dataloader = get_dataloader(test_dataset, batch_size=hyper_parameters["TEST_BATCH_SIZE"], shuffle=True)
 
-    # 创建自编码器对象
+    # # 创建自编码器对象
     autoencoder = AutoEncoder().to(device)
 
     # 从配置文件中读取超参
@@ -54,11 +55,15 @@ def main():
     cnn = CNN().to(device)
     # 对于CNN，将损失函数换成交叉熵
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(cnn.parameters(), lr=hyper_parameters["LR"])
+    optimizer = torch.optim.Adam(cnn.parameters(), lr=LR)
+
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=3, verbose=True)
+    early_stopping = EarlyStopping(patience=5, delta=0.01)
 
     train_loss_per_epoch, test_loss_per_epoch, train_acc_per_epoch, test_acc_per_epoch = [], [], [], []
 
     # 开始训练cnn
+    # autoencoder.load_state_dict(torch.load("../model/autoencoder.pth", weights_only=True))
     # cnn.train(mode=True)
     for epoch in range(EPOCHS):
         cnn.train(mode=True)
@@ -84,7 +89,7 @@ def main():
         accuracy = correct / len(train_dataset)
         train_loss_per_epoch.append(avg_loss)
         train_acc_per_epoch.append(accuracy)
-        # print(f'[CNN]  Epoch [{epoch + 1}/{EPOCHS}] Train, Loss: {avg_loss:.4f}, Accuracy: {accuracy:.4f}')
+        print(f'[CNN]  Epoch [{epoch + 1}/{EPOCHS}] Train, Loss: {avg_loss:.4f}, Accuracy: {accuracy:.4f}')
 
         cnn.eval()
         total_loss = 0
@@ -106,10 +111,15 @@ def main():
             test_acc_per_epoch.append(accuracy)
             print(f'[CNN]  Epoch [{epoch + 1}/{EPOCHS}] Test, Loss: {avg_loss:.4f}, Accuracy: {accuracy:.4f}')
 
+        scheduler.step(avg_loss)
+        early_stopping(avg_loss)
+        if early_stopping.early_stop:
+            print("Early stopping")
+            break
     # 模型保存
-    torch.save(cnn.state_dict(), "../model/cnn.pth")
-    visualization_for_cnn(list(range(1, EPOCHS + 1)), train_loss_per_epoch, test_loss_per_epoch, train_acc_per_epoch,
-                          test_acc_per_epoch)
+    # torch.save(cnn.state_dict(), "../model/cnn.pth")
+    visualization_for_cnn(list(range(1, len(train_loss_per_epoch) + 1)), train_loss_per_epoch,
+                          test_loss_per_epoch, train_acc_per_epoch,test_acc_per_epoch)
 
 
 if __name__ == '__main__':
